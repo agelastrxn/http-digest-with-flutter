@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.env
+.env.*
+!.env.example
+.pytest_cache/
+
+# SQLite databases
+instance/
+*.db
+*.sqlite
+*.sqlite3
+
+# Flutter and Dart
+.dart_tool/
+build/
+.flutter-plugins
+.flutter-plugins-dependencies
+
+# IDE settings
+.vscode/
+.idea/
