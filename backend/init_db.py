@@ -27,6 +27,31 @@ def initialize_database():
             )
         """)
 
+        connection.execute("""
+            CREATE TABLE IF NOT EXISTS digest_nonces (
+                nonce_hash TEXT PRIMARY KEY,
+                created_at INTEGER NOT NULL,
+                expires_at INTEGER NOT NULL,
+                is_revoked INTEGER NOT NULL DEFAULT 0
+                    CHECK (is_revoked IN (0, 1))
+            )
+        """)
+
+        connection.execute("""
+            CREATE TABLE IF NOT EXISTS digest_nonce_usage (
+                nonce_hash TEXT NOT NULL,
+                username TEXT NOT NULL,
+                nonce_count INTEGER NOT NULL
+                    CHECK (nonce_count BETWEEN 1 AND 4294967295),
+                cnonce TEXT NOT NULL,
+                used_at INTEGER NOT NULL,
+                PRIMARY KEY (nonce_hash, username, nonce_count),
+                FOREIGN KEY (nonce_hash)
+                    REFERENCES digest_nonces(nonce_hash)
+                    ON DELETE CASCADE
+            )
+        """)
+
         connection.commit()
     finally:
         connection.close()
