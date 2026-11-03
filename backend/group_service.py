@@ -330,7 +330,6 @@ def list_groups(
 
     return rows, total
 
-
 def list_group_members(
     connection: sqlite3.Connection,
     group_id: int,
@@ -365,6 +364,7 @@ def list_group_members(
     ).fetchone()["total"]
 
     return rows, total
+
 def user_has_disabled_group(
     connection: sqlite3.Connection,
     user_id: int,
