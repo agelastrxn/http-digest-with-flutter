@@ -67,9 +67,63 @@ def initialize_database():
             )
         """)
 
+
+        connection.execute("""
+            CREATE TABLE IF NOT EXISTS backup_codes (
+                code_hash TEXT PRIMARY KEY,
+                user_id INTEGER NOT NULL,
+                created_at INTEGER NOT NULL,
+                used_at INTEGER,
+                revoked_at INTEGER,
+                FOREIGN KEY (user_id)
+                    REFERENCES users(id)
+                    ON DELETE CASCADE
+            )
+        """)
+
+        connection.execute("""
+            CREATE INDEX IF NOT EXISTS idx_backup_codes_user_id
+            ON backup_codes(user_id)
+        """)
+
         connection.execute("""
             CREATE INDEX IF NOT EXISTS idx_auth_sessions_user_id
             ON auth_sessions(user_id)
+        """)
+
+
+        connection.execute("""
+            CREATE TABLE IF NOT EXISTS user_groups (
+                id INTEGER PRIMARY KEY,
+                name TEXT NOT NULL UNIQUE,
+                description TEXT NOT NULL DEFAULT '',
+                is_active INTEGER NOT NULL DEFAULT 1
+                    CHECK (is_active IN (0, 1)),
+                created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+            )
+        """)
+
+        connection.execute("""
+            CREATE TABLE IF NOT EXISTS group_members (
+                group_id INTEGER NOT NULL,
+                user_id INTEGER NOT NULL,
+                added_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+                PRIMARY KEY (group_id, user_id),
+
+                FOREIGN KEY (group_id)
+                    REFERENCES user_groups(id)
+                    ON DELETE CASCADE,
+
+                FOREIGN KEY (user_id)
+                    REFERENCES users(id)
+                    ON DELETE CASCADE
+            )
+        """)
+
+        connection.execute("""
+            CREATE INDEX IF NOT EXISTS idx_group_members_user_id
+            ON group_members(user_id)
         """)
 
         connection.commit()

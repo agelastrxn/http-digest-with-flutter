@@ -87,8 +87,16 @@ def validate_session(
         FROM auth_sessions AS s
         JOIN users AS u ON u.id = s.user_id
         WHERE s.session_token_hash = ?
-          AND s.revoked_at IS NULL
-          AND s.expires_at > ?
+        AND s.revoked_at IS NULL
+        AND s.expires_at > ?
+        AND NOT EXISTS (
+            SELECT 1
+            FROM group_members AS gm
+            JOIN user_groups AS g
+                ON g.id = gm.group_id
+            WHERE gm.user_id = s.user_id
+                AND g.is_active = 0
+    )
         """,
         (token_hash, current_time),
     ).fetchone()
