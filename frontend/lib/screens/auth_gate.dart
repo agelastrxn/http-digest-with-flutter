@@ -19,6 +19,7 @@ class _AuthGateState extends State<AuthGate> {
   final SessionStorageService _sessionStorage = SessionStorageService();
 
   bool _isChecking = true;
+  // ignore: unused_field
   bool _showLogin = false;
 
   String? _username;

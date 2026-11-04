@@ -561,7 +561,7 @@ class _AddGroupMemberDialogState extends State<_AddGroupMemberDialog> {
       content: SizedBox(
         width: 400,
         child: DropdownButtonFormField<int>(
-          value: _selectedUserId,
+          initialValue: _selectedUserId,
           decoration: const InputDecoration(
             labelText: 'Select User',
             border: OutlineInputBorder(),

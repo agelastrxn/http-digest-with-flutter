@@ -308,6 +308,7 @@ class _AdminUsersScreenState extends State<AdminUsersScreen> {
                   final username = user['username']?.toString() ?? 'Unknown';
                   final role = user['role']?.toString() ?? 'user';
                   final isActive = user['is_active'] == true;
+                  // ignore: unused_local_variable
                   final isDisabling = _updatingUserIds.contains(userId);
 
                   return Card(
