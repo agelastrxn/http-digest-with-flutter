@@ -1158,7 +1158,6 @@ def admin_add_group_member(group_id):
         "message": "User successfully added to group.",
     }, 201
 
-
 @app.get("/api/admin/groups/<int:group_id>/members")
 @limiter.limit("30 per minute")
 def admin_list_group_members(group_id):

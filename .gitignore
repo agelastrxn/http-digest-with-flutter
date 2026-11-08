@@ -9,10 +9,9 @@ venv/
 .pytest_cache/
 
 # SQLite databases
-instance/
-*.db
-*.sqlite
-*.sqlite3
+!backend/instance/
+backend/instance/*
+!backend/instance/auth.db
 
 # Flutter and Dart
 .dart_tool/
